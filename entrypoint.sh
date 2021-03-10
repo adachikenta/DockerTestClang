@@ -2,14 +2,7 @@
 
 echo "Hello $1"
 
-ls -l
-cd ./home/
-ls -l
-cd ./devenv/
-ls -l
-cd ./_build_/
-ls -l
-#cd ./home/devenv/_build_/
+cd ./devenv/_build_/
 make
 
 echo ^^^^ check ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
