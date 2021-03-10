@@ -1,0 +1,79 @@
+@startuml make
+frame ビルド対象コード #while
+frame ビルドシステム
+frame コンパイラツール群 #LightGreen
+frame 中間ファイル #LightGrey
+frame ビルド結果 #Yellow
+
+ビルド対象コード .. ビルドシステム
+ビルドシステム .. コンパイラツール群
+コンパイラツール群 .. 中間ファイル
+中間ファイル .. ビルド結果
+
+actor User
+
+folder _build_/ {
+  frame Makefile
+  frame Makefile.mk
+  frame MakefileOption.mk
+  frame MakefileLibs.mk
+  frame MakefileIncludePath.mk
+  frame MakefileRule.mk
+}
+folder library/ #lightpink {
+  frame library.c #while
+  frame Makefileライブラリ
+}
+folder application/ #lightCyan {
+  frame Makefileアプリケーション
+  frame main.c #while
+}
+folder tool-directory/ {
+  frame clang #LightGreen
+  frame ar #LightGreen
+  frame ld #LightGreen
+}
+folder _build_/obj/ <<OUTPUT>> {
+  folder OUTPUT/library/ #lightpink {
+    frame library.o #LightGrey
+    frame library.a #LightGrey
+  }
+  folder OUTPUT/application/ #lightCyan {
+    frame main.o #LightGrey
+  }
+  frame application <<executable>> #Yellow
+}
+
+Makefile - ビルドシステム #white
+ld - コンパイラツール群 #white
+
+
+User -[thickness=4]-> Makefile #Purple
+Makefileライブラリ <-[thickness=4]- Makefile #Red
+Makefileアプリケーション <-[thickness=4]- Makefile #Blue
+Makefile .. Makefile.mk #White
+Makefileライブラリ -[thickness=4]--> Makefile.mk #Red
+Makefileアプリケーション -[thickness=4]--> Makefile.mk #Blue
+
+Makefile.mk -[thickness=4]> MakefileOption.mk #Purple
+
+Makefile.mk -[thickness=4]-> MakefileLibs.mk #Blue
+
+MakefileOption.mk -[thickness=4]-> MakefileIncludePath.mk #Purple
+
+Makefile.mk -[thickness=4]-> MakefileRule.mk #Purple
+
+MakefileRule.mk -[thickness=4]-> clang #Purple
+MakefileRule.mk -[thickness=4]-> ar #Red
+MakefileRule.mk -[thickness=4]-> ld #Blue
+
+clang -[thickness=4]-> library.o #Red : コンパイル
+library.o -> library.a #Black
+ar -[thickness=4]-> library.a #Red : アーカイブ
+
+clang -[thickness=4]-> main.o #Blue : コンパイル
+library.a --> application #Black
+main.o --> application #Black
+ld -[thickness=4]--> application #Blue : リンク
+
+@enduml

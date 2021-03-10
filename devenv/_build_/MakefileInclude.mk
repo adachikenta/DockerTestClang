@@ -1,0 +1,3 @@
+FLAGS_INCLUDE  =-I./
+FLAGS_INCLUDE +=-I../library1
+FLAGS_INCLUDE +=-I../library2
