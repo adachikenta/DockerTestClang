@@ -15,10 +15,10 @@ actor User
 folder _build_/ {
   frame Makefile
   frame Makefile.mk
-  frame MakefileOption.mk
   frame MakefileLibs.mk
-  frame MakefileIncludePath.mk
   frame MakefileRule.mk
+  frame MakefileOption.mk
+  frame MakefileIncludePath.mk
 }
 folder library/ #lightpink {
   frame library.c #while
@@ -29,17 +29,17 @@ folder application/ #lightCyan {
   frame main.c #while
 }
 folder tool-directory/ {
-  frame clang #LightGreen
   frame ar #LightGreen
+  frame clang #LightGreen
   frame ld #LightGreen
 }
 folder _build_/obj/ <<OUTPUT>> {
+  folder OUTPUT/application/ #lightCyan {
+    frame main.o #LightGrey
+  }
   folder OUTPUT/library/ #lightpink {
     frame library.o #LightGrey
     frame library.a #LightGrey
-  }
-  folder OUTPUT/application/ #lightCyan {
-    frame main.o #LightGrey
   }
   frame application <<executable>> #Yellow
 }
@@ -55,13 +55,12 @@ Makefile .. Makefile.mk #White
 Makefileライブラリ -[thickness=4]--> Makefile.mk #Red
 Makefileアプリケーション -[thickness=4]--> Makefile.mk #Blue
 
-Makefile.mk -[thickness=4]> MakefileOption.mk #Purple
-
 Makefile.mk -[thickness=4]-> MakefileLibs.mk #Blue
 
-MakefileOption.mk -[thickness=4]-> MakefileIncludePath.mk #Purple
-
 Makefile.mk -[thickness=4]-> MakefileRule.mk #Purple
+
+Makefile.mk -[thickness=4]> MakefileOption.mk #Purple
+MakefileOption.mk -[thickness=4]-> MakefileIncludePath.mk #Purple
 
 MakefileRule.mk -[thickness=4]-> clang #Purple
 MakefileRule.mk -[thickness=4]-> ar #Red

@@ -1,0 +1,32 @@
+@startuml actions
+actor User
+
+node github{
+  folder ./.github/workflows/ {
+    frame main.yml {
+      [on push]
+      [uses]
+    }
+  }
+  frame action.yml {
+    [using docker]
+  }
+  frame Dockerfile {
+    [ENTRYPOINT]
+  }
+  frame entrypoint.sh {
+    [make]
+  }
+  folder ./devenv/_build_/ {
+    frame Makefile {
+      [target]
+    }
+  }
+}
+User -[thickness=4]> [on push]
+[on push] -- [uses]
+[uses] -[thickness=4]> action.yml
+[using docker] -[thickness=4]-> Dockerfile
+[ENTRYPOINT] -[thickness=4]-> entrypoint.sh
+Makefile <-[thickness=4]- [make]
+@enduml
